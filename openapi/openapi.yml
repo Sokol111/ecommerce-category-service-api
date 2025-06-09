@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Category API
-  version: 1.0.0
+  version: 1.0.2
   description: API for managing categories
 paths:
   /category/create:
@@ -25,24 +25,24 @@ paths:
                 - name
                 - enabled
       responses:
-        '200':
+        "200":
           description: Category created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryResponse'
-        '400':
+                $ref: "#/components/schemas/CategoryResponse"
+        "400":
           description: Validation error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
           description: Standard internal error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
   /category/update:
     put:
       summary: Update an existing category
@@ -72,30 +72,30 @@ paths:
                 - enabled
                 - version
       responses:
-        '200':
+        "200":
           description: Category updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryResponse'
-        '412':
+                $ref: "#/components/schemas/CategoryResponse"
+        "412":
           description: Versions mismatch
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '400':
+                $ref: "#/components/schemas/ErrorResponse"
+        "400":
           description: Validation error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
           description: Standard internal error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
   /category/get/{id}:
     get:
       summary: Get a category by ID
@@ -107,43 +107,43 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Category retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryResponse'
-        '404':
+                $ref: "#/components/schemas/CategoryResponse"
+        "404":
           description: Category not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
           description: Standard internal error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
   /category/list:
     get:
       summary: Get a list of all categories
       operationId: getAll
       responses:
-        '200':
+        "200":
           description: List of categories retrieved successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CategoryResponse'
-        '500':
+                  $ref: "#/components/schemas/CategoryResponse"
+        "500":
           description: Standard internal error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     CategoryResponse:
