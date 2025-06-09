@@ -1,0 +1,75 @@
+name: Generate and Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Put the next version (e.g. v1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-release-sdk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # To allow tag creation
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.24.2"
+
+      - name: Install oapi-codegen
+        run: make install-tools
+
+      - name: Generate Go SDK
+        run: make types server client
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install OpenAPI Generator CLI
+        run: |
+          npm install --global @openapitools/openapi-generator-cli
+
+      - name: Generate JavaScript SDK
+        run: make js VERSION=${{ github.event.inputs.version }}
+
+      - name: Publish JavaScript SDK to npm
+        run: |
+          cd js-client
+          npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+          npm publish --access public
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit to `generated` branch
+        run: |
+          git checkout -B generated
+          git add api/ js-client/
+          git commit -m "chore: generate SDK for release ${{ github.event.inputs.version }}" || echo "No changes to commit"
+          git push origin generated --force
+
+      - name: Create tag on generated branch
+        run: |
+          git tag ${{ github.event.inputs.version }}
+          git push origin ${{ github.event.inputs.version }}
+
+      - name: Create GitHub Release with generated code
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
