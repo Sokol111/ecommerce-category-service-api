@@ -18,11 +18,11 @@ jobs:
 
       - name: Get version from OpenAPI
         id: get_version
-        run: echo "::set-output name=version::$(yq e '.info.version' openapi/openapi.yml)"
+        run: echo "version=$(yq e '.info.version' openapi/openapi.yml)" >> $GITHUB_OUTPUT
 
       - name: Set version with v prefix
         id: set_v_version
-        run: echo "::set-output name=version::v${{ steps.get_version.outputs.version }}"
+        run: echo "version=v${{ steps.get_version.outputs.version }}" >> $GITHUB_OUTPUT
 
       - name: Set up Go
         uses: actions/setup-go@v4
