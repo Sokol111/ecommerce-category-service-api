@@ -1,0 +1,14 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+api.ts
+base.ts
+common.ts
+configuration.ts
+docs/CategoryResponse.md
+docs/CreateCategoryRequest.md
+docs/DefaultApi.md
+docs/ErrorResponse.md
+docs/UpdateCategoryRequest.md
+git_push.sh
+index.ts
