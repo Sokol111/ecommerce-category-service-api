@@ -1,4 +1,4 @@
-name: Generate and Release SDK
+name: Release
 
 on:
   workflow_dispatch:
@@ -8,6 +8,6 @@ permissions:
 
 jobs:
   release:
-    uses: Sokol111/ecommerce-infrastructure/.github/workflows/reusable-sdk-release.yml@master
+    uses: Sokol111/ecommerce-infrastructure/.github/workflows/generate-and-release-go-js-api.yml@master
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
