@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Category API
-  version: 1.0.7
+  version: 1.0.8
   description: API for managing categories
 paths:
   /category/create:
@@ -34,15 +34,15 @@ paths:
         "400":
           description: Validation error
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
         "500":
           description: Standard internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
   /category/update:
     put:
       summary: Update an existing category
@@ -81,21 +81,21 @@ paths:
         "412":
           description: Versions mismatch
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
         "400":
           description: Validation error
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
         "500":
           description: Standard internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
   /category/get/{id}:
     get:
       summary: Get a category by ID
@@ -116,15 +116,15 @@ paths:
         "404":
           description: Category not found
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
         "500":
           description: Standard internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
   /category/list:
     get:
       summary: Get a list of all categories
@@ -141,9 +141,9 @@ paths:
         "500":
           description: Standard internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
 components:
   schemas:
     CategoryResponse:
@@ -176,18 +176,21 @@ components:
           type: string
           format: date-time
           example: "2023-01-02T00:00:00Z"
-    ErrorResponse:
+    Problem:
       type: object
-      required:
-        - code
-        - message
+      description: RFC7807 Problem Details
+      required: [type, title, status]
       properties:
-        code:
-          type: integer
-          example: 404
-        message:
-          type: string
-          example: "Category not found"
-        details:
-          type: string
-          example: "Optional additional information about the error"
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string, format: uri }
+        traceId: { type: string }
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field: { type: string }
+              message: { type: string }
