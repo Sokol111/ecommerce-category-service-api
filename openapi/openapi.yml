@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Category API
-  version: 1.0.9
+  version: 1.0.10
   description: API for managing categories
 paths:
   /category/create:
@@ -168,7 +168,7 @@ paths:
           schema:
             type: string
             enum: [asc, desc]
-            default: asc
+            default: desc
             example: desc
           description: Sort order (ascending or descending)
       responses:
