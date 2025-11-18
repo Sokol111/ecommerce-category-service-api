@@ -23,7 +23,7 @@
 asyncapi: 3.0.0
 info:
   title: Category Messaging API
-  version: 1.0.17
+  version: 1.0.18
   description: |
     AsyncAPI specification for Category service Kafka events.
     Events are serialized using Avro format and registered in Schema Registry.
