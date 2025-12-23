@@ -23,7 +23,7 @@
 asyncapi: 3.0.0
 info:
   title: Category Messaging API
-  version: 1.0.26
+  version: 1.0.27
   description: |
     AsyncAPI specification for Category service Kafka events.
     Events are serialized using Avro format and registered in Schema Registry.
@@ -79,9 +79,10 @@ components:
       summary: Event published when a new category is created
       contentType: application/avro
       description: |
-        **Schema Definition**: See /avro/category_created.avsc
+        **Schema Definition**: See /avro/category_created_payload.avsc
         
         This event is emitted when a new category is successfully created in the system.
+        Generated event type: CategoryCreatedEvent (metadata + payload envelope)
         
         **Structure**:
         - `metadata` (EventMetadata): event_id, event_type, source, timestamp, trace_id, etc.
@@ -89,7 +90,7 @@ components:
       payload:
         schemaFormat: application/vnd.apache.avro+json;version=1.9.0
         schema:
-          $ref: '../avro/category_created.avsc'
+          $ref: '../avro/category_created_payload.avsc'
 
     CategoryUpdated:
       name: CategoryUpdated
@@ -97,9 +98,10 @@ components:
       summary: Event published when a category is updated
       contentType: application/avro
       description: |
-        **Schema Definition**: See /avro/category_updated.avsc
+        **Schema Definition**: See /avro/category_updated_payload.avsc
         
         This event is emitted when a category's details are modified.
+        Generated event type: CategoryUpdatedEvent (metadata + payload envelope)
         
         **Structure**:
         - `metadata` (EventMetadata): event_id, event_type, source, timestamp, trace_id, etc.
@@ -107,4 +109,4 @@ components:
       payload:
         schemaFormat: application/vnd.apache.avro+json;version=1.9.0
         schema:
-          $ref: '../avro/category_updated.avsc'
+          $ref: '../avro/category_updated_payload.avsc'
