@@ -1,0 +1,112 @@
+# ============================================================================
+# Category Messaging API - AsyncAPI Specification
+# ============================================================================
+# 
+# 📌 SCHEMA-FIRST APPROACH:
+#    - Avro schemas (/avro/*.avsc) are the SOURCE OF TRUTH
+#    - This AsyncAPI file documents channels, operations, and event flows
+#    - Payload schemas reference Avro files (no duplication)
+#    - To modify event structure, edit Avro schemas only
+#
+# 🏗️ EVENT STRUCTURE (Metadata + Payload Pattern):
+#    Each event has two top-level fields:
+#    - metadata: EventMetadata (technical/observability fields)
+#    - payload: Business-specific data (e.g., CategoryCreatedPayload)
+#    
+#    Benefits:
+#    - Clear separation of concerns (technical vs business data)
+#    - Reusable metadata across all events
+#    - All data in Avro (not in Kafka headers) for reliability
+#
+# ============================================================================
+
+asyncapi: 3.0.0
+info:
+  title: Category Messaging API
+  version: 1.0.29
+  description: |
+    AsyncAPI specification for Category service Kafka events.
+    Events are serialized using Avro format and registered in Schema Registry.
+    
+    📌 **Schema Source of Truth**: Avro schema files in /avro directory
+    This AsyncAPI document describes channels, operations, and event flows.
+    Detailed payload schemas are defined in Avro files for runtime serialization.
+    
+    🏗️ **Event Structure**:
+    All events follow the metadata + payload pattern:
+    ```
+    {
+      metadata: EventMetadata,  // Technical fields (event_id, trace_id, etc.)
+      payload: BusinessData      // Domain-specific data
+    }
+    ```
+    
+    This ensures clear separation between observability/routing data and business data.
+  contact:
+    name: Sokol111
+    url: https://github.com/Sokol111
+
+servers:
+  development:
+    host: localhost:9092
+    protocol: kafka
+    description: Local Kafka broker
+  production:
+    host: kafka:9092
+    protocol: kafka
+    description: Production Kafka broker
+
+defaultContentType: application/avro
+
+channels:
+  catalog.category.events:
+    address: catalog.category.events
+    description: |
+      Category domain events channel.
+      All category lifecycle events (created, updated) are published to this single topic.
+      Uses category_id as partition key to guarantee ordering for events of the same category.
+    messages:
+      CategoryCreated:
+        $ref: "#/components/messages/CategoryCreated"
+      CategoryUpdated:
+        $ref: "#/components/messages/CategoryUpdated"
+
+components:
+  messages:
+    CategoryCreated:
+      name: CategoryCreated
+      title: Category Created Event
+      summary: Event published when a new category is created
+      contentType: application/avro
+      description: |
+        **Schema Definition**: See /avro/category_created_payload.avsc
+        
+        This event is emitted when a new category is successfully created in the system.
+        Generated event type: CategoryCreatedEvent (metadata + payload envelope)
+        
+        **Structure**:
+        - `metadata` (EventMetadata): event_id, event_type, source, timestamp, trace_id, etc.
+        - `payload` (CategoryCreatedPayload): category_id, name, enabled, version, created_at, modified_at
+      payload:
+        schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+        schema:
+          $ref: '../avro/category_created_payload.avsc'
+
+    CategoryUpdated:
+      name: CategoryUpdated
+      title: Category Updated Event
+      summary: Event published when a category is updated
+      contentType: application/avro
+      description: |
+        **Schema Definition**: See /avro/category_updated_payload.avsc
+        
+        This event is emitted when a category's details are modified.
+        Generated event type: CategoryUpdatedEvent (metadata + payload envelope)
+        
+        **Structure**:
+        - `metadata` (EventMetadata): event_id, event_type, source, timestamp, trace_id, etc.
+        - `payload` (CategoryUpdatedPayload): category_id, name, enabled, version, created_at, modified_at
+      payload:
+        schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+        schema:
+          $ref: '../avro/category_updated_payload.avsc'
