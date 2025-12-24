@@ -20,6 +20,50 @@
       "doc": "Whether the category is enabled"
     },
     {
+      "name": "attributes",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "CategoryAttribute",
+          "doc": "Attribute assigned to a category",
+          "fields": [
+            {
+              "name": "attribute_id",
+              "type": "string",
+              "doc": "Unique attribute identifier (UUID)"
+            },
+            {
+              "name": "required",
+              "type": "boolean",
+              "doc": "Whether the attribute is required for products in this category"
+            },
+            {
+              "name": "sort_order",
+              "type": "int",
+              "doc": "Sort order for display"
+            },
+            {
+              "name": "filterable",
+              "type": "boolean",
+              "doc": "Whether the attribute is filterable for this category"
+            },
+            {
+              "name": "searchable",
+              "type": "boolean",
+              "doc": "Whether the attribute is searchable for this category"
+            },
+            {
+              "name": "enabled",
+              "type": "boolean",
+              "doc": "Whether the attribute is enabled for this category"
+            }
+          ]
+        }
+      },
+      "doc": "List of attributes assigned to this category"
+    },
+    {
       "name": "version",
       "type": "int",
       "doc": "Entity version for optimistic locking"

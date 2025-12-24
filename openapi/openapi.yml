@@ -274,6 +274,8 @@ components:
       description: Input for assigning an attribute to a category
       required:
         - attributeId
+        - filterable
+        - searchable
         - enabled
       properties:
         attributeId:
@@ -308,24 +310,13 @@ components:
         - attributeId
         - required
         - sortOrder
+        - filterable
+        - searchable
         - enabled
       properties:
         attributeId:
           type: string
           example: "123e4567-e89b-12d3-a456-426614174000"
-        attributeName:
-          type: string
-          example: "Color"
-          description: Name of the attribute (denormalized for convenience)
-        attributeSlug:
-          type: string
-          example: "color"
-          description: Slug of the attribute (denormalized for convenience)
-        attributeType:
-          type: string
-          enum: [select, multiselect, range, boolean, text]
-          example: "select"
-          description: Type of the attribute (denormalized for convenience)
         required:
           type: boolean
           example: false
