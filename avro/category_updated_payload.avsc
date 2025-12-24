@@ -61,7 +61,8 @@
           ]
         }
       },
-      "doc": "List of attributes assigned to this category"
+      "doc": "List of attributes assigned to this category",
+      "default": []
     },
     {
       "name": "version",
