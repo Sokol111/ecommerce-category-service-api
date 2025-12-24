@@ -26,6 +26,11 @@ paths:
                 enabled:
                   type: boolean
                   example: true
+                attributes:
+                  type: array
+                  description: List of attributes to assign to this category
+                  items:
+                    $ref: "#/components/schemas/CategoryAttributeInput"
               required:
                 - name
                 - enabled
@@ -71,6 +76,11 @@ paths:
                 version:
                   type: integer
                   example: 1
+                attributes:
+                  type: array
+                  description: List of attributes assigned to this category
+                  items:
+                    $ref: "#/components/schemas/CategoryAttributeInput"
               required:
                 - id
                 - name
@@ -195,6 +205,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/Problem"
+
 components:
   schemas:
     CategoryListResponse:
@@ -251,6 +262,89 @@ components:
           type: string
           format: date-time
           example: "2023-01-02T00:00:00Z"
+        attributes:
+          type: array
+          description: List of attributes assigned to this category
+          items:
+            $ref: "#/components/schemas/CategoryAttribute"
+
+    # ==================== CATEGORY ATTRIBUTE SCHEMAS ====================
+    CategoryAttributeInput:
+      type: object
+      description: Input for assigning an attribute to a category
+      required:
+        - attributeId
+        - enabled
+      properties:
+        attributeId:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        required:
+          type: boolean
+          example: false
+        sortOrder:
+          type: integer
+          example: 1
+          minimum: 0
+          maximum: 10000
+        filterable:
+          type: boolean
+          example: true
+          description: Override default filterable setting for this category
+        searchable:
+          type: boolean
+          example: false
+          description: Override default searchable setting for this category
+        enabled:
+          type: boolean
+          example: true
+
+    CategoryAttribute:
+      type: object
+      description: Embedded category attribute
+      required:
+        - attributeId
+        - required
+        - sortOrder
+        - enabled
+      properties:
+        attributeId:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        attributeName:
+          type: string
+          example: "Color"
+          description: Name of the attribute (denormalized for convenience)
+        attributeSlug:
+          type: string
+          example: "color"
+          description: Slug of the attribute (denormalized for convenience)
+        attributeType:
+          type: string
+          enum: [select, multiselect, range, boolean, text]
+          example: "select"
+          description: Type of the attribute (denormalized for convenience)
+        required:
+          type: boolean
+          example: false
+        sortOrder:
+          type: integer
+          example: 1
+        filterable:
+          type: boolean
+          example: true
+          description: Override for this category (null means use attribute default)
+        searchable:
+          type: boolean
+          example: false
+          description: Override for this category (null means use attribute default)
+        enabled:
+          type: boolean
+          example: true
+
+    # ==================== COMMON SCHEMAS ====================
     Problem:
       type: object
       description: RFC7807 Problem Details
