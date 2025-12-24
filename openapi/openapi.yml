@@ -274,7 +274,7 @@ components:
       description: Input for assigning an attribute to a category
       required:
         - attributeId
-        - usage
+        - role
         - filterable
         - searchable
         - enabled
@@ -284,7 +284,7 @@ components:
           format: uuid
           pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
           example: "123e4567-e89b-12d3-a456-426614174000"
-        usage:
+        role:
           type: string
           enum: [variant, specification]
           example: "specification"
@@ -317,7 +317,7 @@ components:
       description: Embedded category attribute
       required:
         - attributeId
-        - usage
+        - role
         - required
         - sortOrder
         - filterable
@@ -327,7 +327,7 @@ components:
         attributeId:
           type: string
           example: "123e4567-e89b-12d3-a456-426614174000"
-        usage:
+        role:
           type: string
           enum: [variant, specification]
           example: "specification"
