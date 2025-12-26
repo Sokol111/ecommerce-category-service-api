@@ -35,7 +35,12 @@
             },
             {
               "name": "role",
-              "type": "com.ecommerce.events.category.AttributeRole",
+              "type": {
+                "type": "enum",
+                "name": "AttributeRole",
+                "symbols": ["variant", "specification"],
+                "doc": "How an attribute is used in a category"
+              },
               "doc": "Role of the attribute (variant creates product variants, specification describes the product)"
             },
             {
