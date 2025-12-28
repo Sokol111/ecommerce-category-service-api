@@ -26,12 +26,79 @@
         "items": {
           "type": "record",
           "name": "CategoryAttribute",
-          "doc": "Attribute assigned to a category",
+          "doc": "Attribute assigned to a category with denormalized attribute data",
           "fields": [
             {
               "name": "attribute_id",
               "type": "string",
               "doc": "Unique attribute identifier (UUID)"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "doc": "Display name of the attribute (denormalized from attribute-service)"
+            },
+            {
+              "name": "slug",
+              "type": "string",
+              "doc": "URL-friendly identifier (denormalized from attribute-service)"
+            },
+            {
+              "name": "type",
+              "type": {
+                "type": "enum",
+                "name": "AttributeType",
+                "symbols": ["single", "multiple", "range", "boolean", "text"],
+                "doc": "Type of the attribute"
+              },
+              "doc": "Attribute type (denormalized from attribute-service)"
+            },
+            {
+              "name": "unit",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "Unit of measurement for range attributes (denormalized from attribute-service)"
+            },
+            {
+              "name": "options",
+              "type": {
+                "type": "array",
+                "items": {
+                  "type": "record",
+                  "name": "AttributeOption",
+                  "doc": "Attribute option for single/multiple type attributes",
+                  "fields": [
+                    {
+                      "name": "value",
+                      "type": "string",
+                      "doc": "Display value of the option"
+                    },
+                    {
+                      "name": "slug",
+                      "type": "string",
+                      "doc": "URL-friendly identifier"
+                    },
+                    {
+                      "name": "color_code",
+                      "type": ["null", "string"],
+                      "default": null,
+                      "doc": "Color hex code (for color attributes)"
+                    },
+                    {
+                      "name": "sort_order",
+                      "type": "int",
+                      "doc": "Sort order for display"
+                    },
+                    {
+                      "name": "enabled",
+                      "type": "boolean",
+                      "doc": "Whether the option is enabled"
+                    }
+                  ]
+                }
+              },
+              "default": [],
+              "doc": "Available options for single/multiple type attributes (denormalized from attribute-service)"
             },
             {
               "name": "role",
