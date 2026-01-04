@@ -277,7 +277,6 @@ components:
         - role
         - filterable
         - searchable
-        - enabled
       properties:
         attributeId:
           type: string
@@ -308,9 +307,6 @@ components:
           type: boolean
           example: false
           description: Override default searchable setting for this category
-        enabled:
-          type: boolean
-          example: true
 
     CategoryAttribute:
       type: object
@@ -322,7 +318,6 @@ components:
         - sortOrder
         - filterable
         - searchable
-        - enabled
       properties:
         attributeId:
           type: string
@@ -349,9 +344,6 @@ components:
           type: boolean
           example: false
           description: Override for this category (null means use attribute default)
-        enabled:
-          type: boolean
-          example: true
 
     # ==================== COMMON SCHEMAS ====================
     Problem:

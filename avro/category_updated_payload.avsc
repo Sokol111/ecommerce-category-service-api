@@ -62,11 +62,6 @@
               "name": "searchable",
               "type": "boolean",
               "doc": "Whether the attribute is searchable for this category"
-            },
-            {
-              "name": "enabled",
-              "type": "boolean",
-              "doc": "Whether the attribute is enabled for this category"
             }
           ]
         }
